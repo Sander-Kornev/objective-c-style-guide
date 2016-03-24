@@ -74,9 +74,9 @@ Create a folder structure for all enclosures:
 ```objc
 ├─Controllers 
 ├─Helpers
-├─Library
-├─Models
-├─Views
+├─Library // it is a place for all categories and 3-rd party libraries
+├─Models  // DB Model
+├─Views   // Subclasses of UIView
 ```
 
 The physical files should be kept in sync with the Xcode project files in order to avoid file sprawl. Any Xcode groups created should be reflected by folders in the filesystem. Code should be grouped not only by type, but also by feature for greater clarity.
