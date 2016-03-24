@@ -189,7 +189,7 @@ else {
 Large block comments should generally be avoided, as code should be as self-documenting as possible, with only the need for intermittent, few-line explanations.
 
 *Exception: This does not apply to those comments used to generate documentation.*
-For generating comments for documentation it is recommended to use [VVDocumenter-Xcode](https://github.com/onevcat/VVDocumenter-Xcode) via [Alcatrz](http://alcatraz.io)
+For generating comments for documentation it is preferable to use [VVDocumenter-Xcode](https://github.com/onevcat/VVDocumenter-Xcode) via [Alcatrz](http://alcatraz.io)
 
 Usually, it is recommended to add a few words comment to the crusial points of the methods, not obvoius from the first sight, or just in complicated `if-else` statements just to explain the flow. Few-lines comments should be used to explain **why** a particular piece of code does something. Any comments that are used must be kept up-to-date or deleted.
 
@@ -369,12 +369,12 @@ UIApplication.sharedApplication.delegate;
 ```objc
 NSArray *names = @[@"Brian", @"Matt", @"Chris", @"Alex", @"Steve", @"Paul"];
 NSDictionary *productManagers = @{@"iPhone"     : @"Kate",
-				  @"iPad        : @"Kamal"
-			          @"Mobile Web" : @"Bill"};
+                                  @"iPad        : @"Kamal",
+                                  @"Mobile Web" : @"Bill"};
 // or simply
 NSDictionary *productManagers = @{@"iPhone" : @"Kate",
-				  @"iPad : @"Kamal"
-			          @"Mobile Web" : @"Bill"};
+                                  @"iPad : @"Kamal"
+                                  @"Mobile Web" : @"Bill"};
 NSNumber *shouldUseLiterals = @YES;
 NSNumber *buildingStreetNumber = @10018;
 ```
