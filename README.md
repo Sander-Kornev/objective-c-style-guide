@@ -1,27 +1,18 @@
-# The official raywenderlich.com Objective-C style guide.
+# The official ITCraft Objective-C style guide.
 
-This style guide outlines the coding conventions for raywenderlich.com.
-
-## Introduction
-
-The reason we made this style guide was so that we could keep the code in our books, tutorials, and starter kits nice and consistent - even though we have many different authors working on the books.
-
-This style guide is different from other Objective-C style guides you may see, because the focus is centered on readability for print and the web. Many of the decisions were made with an eye toward conserving space for print, easy legibility, and tutorial writing.
+This style guide outlines the coding conventions that is accepted in ITCraft company
 
 ## Credits
 
-The creation of this style guide was a collaborative effort from various raywenderlich.com team members under the direction of Nicholas Waynik.  The team includes: [Soheil Moayedi Azarpour](https://github.com/moayes), [Ricardo Rendon Cepeda](https://github.com/ricardo-rendoncepeda), [Tony Dahbura](https://github.com/tdahbura), [Colin Eberhardt](https://github.com/ColinEberhardt), [Matt Galloway](https://github.com/mattjgalloway), [Greg Heo](https://github.com/gregheo), [Matthijs Hollemans](https://github.com/hollance), [Christopher LaPollo](https://github.com/elephantronic), [Saul Mora](https://github.com/casademora), [Andy Pereira](https://github.com/macandyp), [Mic Pringle](https://github.com/micpringle), [Pietro Rea](https://github.com/pietrorea), [Cesare Rocchi](https://github.com/funkyboy), [Marin Todorov](https://github.com/icanzilb), [Nicholas Waynik](https://github.com/ndubbs), and [Ray Wenderlich](https://github.com/raywenderlich)
+Sources, this guide is based on
 
-We would like to thank the creators of the [New York Times](https://github.com/NYTimes/objective-c-style-guide) and [Robots & Pencils'](https://github.com/RobotsAndPencils/objective-c-style-guide) Objective-C Style Guides.  These two style guides provided a solid starting point for this guide to be created and based upon.
-
-## Background
-
-Here are some of the documents from Apple that informed the style guide. If something isn't mentioned here, it's probably covered in great detail in one of these:
-
+* [raywenderlich/objective-c-style-guide](https://github.com/raywenderlich/objective-c-style-guide)
+* [NYTimes Objective-C Style Guide](https://github.com/NYTimes/objective-c-style-guide)
 * [The Objective-C Programming Language](http://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/ObjectiveC/Introduction/introObjectiveC.html)
 * [Cocoa Fundamentals Guide](https://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/CocoaFundamentals/Introduction/Introduction.html)
 * [Coding Guidelines for Cocoa](https://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/CodingGuidelines/CodingGuidelines.html)
 * [iOS App Programming Guide](http://developer.apple.com/library/ios/#documentation/iphone/conceptual/iphoneosprogrammingguide/Introduction/Introduction.html)
+
 
 ## Table of Contents
 
@@ -67,19 +58,45 @@ UIColor *myColor = [UIColor whiteColor];
 ```objc
 UIColor *myColour = [UIColor whiteColor];
 ```
+## User interface notes
 
+* Storyboards are more likely to conflict with the Version control (git ...) due to their complex XML structure.
+* Do not mix everything. When the project started with storyboards, you should continue to use storyboards.
+* If you use Storyboards or XIB for your class/project use its possibilities as much as possible for setting properties. 
+* For the separation of multiple user flows (authorization, etc), it is recommended to split into smaller storyboards if possible.
+
+## Project structure
+
+Create a folder structure for all enclosures:
+
+```objc
+├─Controllers 
+├─Helpers
+├─Library
+├─Models
+├─Views
+```
+
+The physical files should be kept in sync with the Xcode project files in order to avoid file sprawl. Any Xcode groups created should be reflected by folders in the filesystem. Code should be grouped not only by type, but also by feature for greater clarity.
+When possible, always turn on "Treat Warnings as Errors" in the target's Build Settings and enable as many [additional warnings](http://boredzo.org/blog/archives/2009-11-07/warnings) as possible. If you need to ignore a specific warning, use [Clang's pragma feature](http://clang.llvm.org/docs/UsersManual.html#controlling-diagnostics-via-pragmas).
+
+Highly recommended to use of CocoaPods when adding libraries to the project.
+
+## Resources
+
+Don't use underscores and dashes / hyphens in names, only CamelCase. Using a hyphen is only allowed to indicate the size. Using the assets is preferable way. If there is a possibility, use Vector based graphics(pdf) instead of Raster graphics(png, jpeg).
 
 ## Code Organization
 
-Use `#pragma mark -` to categorize methods in functional groupings and protocol/delegate implementations following this general structure.
+Use `#pragma mark -` to categorize methods in functional groupings and protocol/delegate implementations following this general structure. For the methods in one `#pragma mark -` try to sort them in order of their calling in the code. For example, in `#pragma mark - Lifecycle` methods are sorted according to `UIViewController` `Lifecycle` 
 
 ```objc
 #pragma mark - Lifecycle
 
 - (instancetype)init {}
-- (void)dealloc {}
 - (void)viewDidLoad {}
 - (void)viewWillAppear:(BOOL)animated {}
+- (void)dealloc {}
 - (void)didReceiveMemoryWarning {}
 
 #pragma mark - Custom Accessors
@@ -87,7 +104,7 @@ Use `#pragma mark -` to categorize methods in functional groupings and protocol/
 - (void)setCustomProperty:(id)value {}
 - (id)customProperty {}
 
-#pragma mark - IBActions
+#pragma mark - Actions
 
 - (IBAction)submitData:(id)sender {}
 
@@ -115,8 +132,7 @@ Use `#pragma mark -` to categorize methods in functional groupings and protocol/
 
 ## Spacing
 
-* Indent using 2 spaces (this conserves space in print and makes line wrapping less likely). Never indent with tabs. Be sure to set this preference in Xcode.
-* Method braces and other braces (`if`/`else`/`switch`/`while` etc.) always open on the same line as the statement but close on a new line.
+Method braces and other braces (`if`/`else`/`switch`/`while` etc.) always open on the same line as the statement but close on a new line.
 
 **Preferred:**
 ```objc
@@ -170,11 +186,18 @@ else {
 
 When they are needed, comments should be used to explain **why** a particular piece of code does something. Any comments that are used must be kept up-to-date or deleted.
 
-Block comments should generally be avoided, as code should be as self-documenting as possible, with only the need for intermittent, few-line explanations. *Exception: This does not apply to those comments used to generate documentation.*
+
+Block comments should generally be avoided, as code should be as self-documenting as possible, with only the need for intermittent, few-line explanations. Usually, it is recommended to add a few words comment to the crusial points of the methods, not obvoius from the first sight, or just in complicated `if-else` statements just to explain the flow.
+
+*Exception: This does not apply to those comments used to generate documentation.*
+For generating comments for documentation it is recommended to use [VVDocumenter-Xcode](https://github.com/onevcat/VVDocumenter-Xcode) via [Alcatrz](http://alcatraz.io)
+
+Comments should be only in english. Transliteration is not allowed.
 
 ## Naming
 
-Apple naming conventions should be adhered to wherever possible, especially those related to [memory management rules](https://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/MemoryMgmt/Articles/MemoryMgmt.html) ([NARC](http://stackoverflow.com/a/2865194/340508)).
+Class names, methods, variables and so on should discribe purpose as much as possible and each word should begin with a capital letter. Example: "CamelCase".
+Apple naming conventions should be adhered to wherever possible, especially those related to [memory management rules](https://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/MemoryMgmt/Articles/MemoryMgmt.html) ([NARC](http://stackoverflow.com/a/2865194/340508)). 
 
 Long, descriptive method and variable names are good.
 
@@ -190,14 +213,15 @@ UIButton *settingsButton;
 UIButton *setBut;
 ```
 
-A three letter prefix should always be used for class names and constants, however may be omitted for Core Data entity names. For any official raywenderlich.com books, starter kits, or tutorials, the prefix 'RWT' should be used.
+A three letter prefix should always be used for constants, however may be omitted for Core Data entity names.
 
 Constants should be camel-case with all words capitalized and prefixed by the related class name for clarity.
 
 **Preferred:**
 
 ```objc
-static NSTimeInterval const RWTTutorialViewControllerNavigationFadeAnimationDuration = 0.3;
+static NSTimeInterval const 
+CSFViewControllerNavigationFadeAnimationDuration = 0.3;
 ```
 
 **Not Preferred:**
@@ -206,7 +230,7 @@ static NSTimeInterval const RWTTutorialViewControllerNavigationFadeAnimationDura
 static NSTimeInterval const fadetime = 1.7;
 ```
 
-Properties should be camel-case with the leading word being lowercase. Use auto-synthesis for properties rather than manual @synthesize statements unless you have good reason.
+Properties should be with the leading word being lowercase, and each subsequent word should begin with a capital letter. Use auto-synthesis for properties rather than manual @synthesize statements unless you have good reason. Always specify attribute of property: atomic, nonatmic, strong, weak, assign, copy.
 
 **Preferred:**
 
@@ -219,6 +243,7 @@ Properties should be camel-case with the leading word being lowercase. Use auto-
 ```objc
 id varnm;
 ```
+
 
 ### Underscores
 
@@ -358,7 +383,7 @@ NSNumber *buildingStreetNumber = [NSNumber numberWithInteger:10018];
 
 ## Constants
 
-Constants are preferred over in-line string literals or numbers, as they allow for easy reproduction of commonly used variables and can be quickly changed without the need for find and replace. Constants should be declared as `static` constants and not `#define`s unless explicitly being used as a macro.
+Constants are preferred over in-line string literals or numbers, as they allow for easy reproduction of commonly used variables and can be quickly changed without the need for find and replace. Constants should be declared as `static` constants and not `#define`s unless explicitly being used as a macro. Using define reasonable only in the case of a platform / target / enviroment dependent constants.
 
 **Preferred:**
 
@@ -415,24 +440,23 @@ enum GlobalConstants {
 
 ## Case Statements
 
-Braces are not required for case statements, unless enforced by the complier.  
-When a case contains more than one line, braces should be added.
+Braces are required for case statements even when a case contains only one line. Parameter names of the condition must be meaningful, for example, some "enum". Case statement is a good option to select from many states, which makes code more short.
 
 ```objc
-switch (condition) {
-  case 1:
-    // ...
-    break;
-  case 2: {
-    // ...
-    // Multi-line example using braces
-    break;
+switch (menuType) 
+{
+  case CSFLeftMenuTopItemMain: {
+    // …
+    // …
   }
-  case 3:
-    // ...
     break;
-  default: 
+  case CSFLeftMenuTopItemShows: {
     // ...
+  }
+    break;
+  case CSFLeftMenuTopItemSchedule: {
+    // ...
+  }
     break;
 }
 
@@ -442,13 +466,16 @@ There are times when the same code can be used for multiple cases, and a fall-th
 
 ```objc
 switch (condition) {
-  case 1:
+  case 1: {
     // ** fall-through! **
-  case 2:
+  }
+  case 2: {
     // code executed for values 1 and 2
+  }
     break;
-  default: 
+  default: {
     // ...
+  }
     break;
 }
 
@@ -673,7 +700,8 @@ Some of Apple’s APIs write garbage values to the error parameter (if non-NULL)
 
 Singleton objects should use a thread-safe pattern for creating their shared instance.
 ```objc
-+ (instancetype)sharedInstance {
++ (instancetype)sharedInstance 
+{
   static id sharedInstance = nil;
 
   static dispatch_once_t onceToken;
@@ -689,50 +717,47 @@ This will prevent [possible and sometimes prolific crashes](http://cocoasamurai.
 
 ## Line Breaks
 
-Line breaks are an important topic since this style guide is focused for print and online readability.
-
-For example:
-```objc
-self.productsRequest = [[SKProductsRequest alloc] initWithProductIdentifiers:productIdentifiers];
-```
-A long line of code like this should be carried on to the second line adhering to this style guide's Spacing section (two spaces).
-```objc
-self.productsRequest = [[SKProductsRequest alloc] 
-  initWithProductIdentifiers:productIdentifiers];
-```
+Please, refer to Spacing section(#Spacing) regarding to colon-aligning.
 
 
-## Smiley Face
-
-Smiley faces are a very prominent style feature of the raywenderlich.com site!  It is very important to have the correct smile signifying the immense amount of happiness and excitement for the coding topic.  The end square bracket is used because it represents the largest smile able to be captured using ascii art.  A half-hearted smile is represented if an end parenthesis is used, and thus not preferred.
+If `if statement` force line to exceed  the max line length, then you can separate line in several rows.
 
 **Preferred:**
 ```objc
-:]
+    if ([self.navManager isEligibleToNavigateIndoorInMall:self.currentMall
+                                                 withType:SNSNavigationManagerNavigationTypeByBeaconsWithAtlasListener
+                                                    error:nil]
+        && self.navManager.currentMall == self.currentMall
+        && (self.navManager.currentType & SNSNavigationManagerNavigationTypeByBeaconsWithAtlasListener) == 0) {
+        
+	//code
+    }
 ```
 
 **Not Preferred:**
 ```objc
-:)
-```  
+    if ([self.navManager isEligibleToNavigateIndoorInMall:self.currentMall withType:SNSNavigationManagerNavigationTypeByBeaconsWithAtlasListener error:nil] && self.navManager.currentMall == self.currentMall && (self.navManager.currentType & SNSNavigationManagerNavigationTypeByBeaconsWithAtlasListener) == 0) {
+        
+	//code
+    }
+``` 
 
 
-## Xcode project
+## Import resources
 
-The physical files should be kept in sync with the Xcode project files in order to avoid file sprawl. Any Xcode groups created should be reflected by folders in the filesystem. Code should be grouped not only by type, but also by feature for greater clarity.
+CocoaPods
 
-When possible, always turn on "Treat Warnings as Errors" in the target's Build Settings and enable as many [additional warnings](http://boredzo.org/blog/archives/2009-11-07/warnings) as possible. If you need to ignore a specific warning, use [Clang's pragma feature](http://clang.llvm.org/docs/UsersManual.html#controlling-diagnostics-via-pragmas).
+A simple way to connect external dependencies (libraries, components, and so on.). It is recommended to use when connecting CocoaPods libraries, if they do not need to fork.
 
-# Other Objective-C Style Guides
+```objc
+// Frameworks 
+@import QuartzCore;
 
-If ours doesn't fit your tastes, have a look at some other style guides:
+// Models
+#import "NYTUser.h"
 
-* [Robots & Pencils](https://github.com/RobotsAndPencils/objective-c-style-guide)
-* [New York Times](https://github.com/NYTimes/objective-c-style-guide)
-* [Google](http://google-styleguide.googlecode.com/svn/trunk/objcguide.xml)
-* [GitHub](https://github.com/github/objective-c-conventions)
-* [Adium](https://trac.adium.im/wiki/CodingStyle)
-* [Sam Soffes](https://gist.github.com/soffes/812796)
-* [CocoaDevCentral](http://cocoadevcentral.com/articles/000082.php)
-* [Luke Redpath](http://lukeredpath.co.uk/blog/my-objective-c-style-guide.html)
-* [Marcus Zarra](http://www.cimgf.com/zds-code-style-guide/)
+// Views
+#import "NYTButton.h"
+#import "NYTUserView.h"
+```
+
