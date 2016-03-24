@@ -724,7 +724,7 @@ This will prevent [possible and sometimes prolific crashes](http://cocoasamurai.
 
 ## Line Breaks
 
-Please, refer to Spacing section(#Spacing) regarding to colon-aligning.
+Please, refer to [Spacing](#spacing) regarding to colon-aligning.
 
 
 If `if statement` force line to exceed  the max line length, then you can separate line in several rows.
